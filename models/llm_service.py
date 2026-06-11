@@ -14,7 +14,7 @@ logger = logging.getLogger(__name__)
 
 class LlamaVisionService:
     """
-    Provides methods to interact with the Llama 3.2 Vision Instruct model.
+    Provides methods to interact with the Llama 4 Instruct model.
     """
     
     def __init__(self, model_id, project_id, region="us-south", 
