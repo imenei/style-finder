@@ -2,10 +2,15 @@
 Service for interacting with the Llama 3.2 Vision Instruct model.
 """
 
+import logging
 from ibm_watsonx_ai import Credentials
 from ibm_watsonx_ai import APIClient
 from ibm_watsonx_ai.foundation_models import ModelInference
 from ibm_watsonx_ai.foundation_models.schema import TextChatParameters
+
+# Set up logging
+logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+logger = logging.getLogger(__name__)
 
 class LlamaVisionService:
     """
@@ -13,7 +18,7 @@ class LlamaVisionService:
     """
     
     def __init__(self, model_id, project_id, region="us-south", 
-                 temperature=0.2, top_p=0.6, api_key=None):
+                 temperature=0.2, top_p=0.6, api_key=None, max_tokens=2000):
         """
         Initialize the service with the specified model and parameters.
         
@@ -24,27 +29,15 @@ class LlamaVisionService:
             temperature (float): Controls randomness in generation
             top_p (float): Nucleus sampling parameter
             api_key (str, optional): API key for authentication
+            max_tokens (int): Maximum tokens in the response
         """
-        # Set up authentication credentials
-        credentials = Credentials(
-            url=f"https://{region}.ml.cloud.ibm.com",
-            api_key=api_key
-        )
-        self.client = APIClient(credentials)
+        # TODO: Set up authentication credentials
         
-        # Define parameters for the model's behavior
-        params = TextChatParameters(
-            temperature=temperature,
-            top_p=top_p
-        )
+        # TODO: Initialize API client
         
-        # Initialize the model inference object
-        self.model = ModelInference(
-            model_id=model_id,
-            credentials=credentials,
-            project_id=project_id,
-            params=params
-        )
+        # TODO: Define parameters for the model's behavior
+        
+        # TODO: Initialize the model inference object
     
     def generate_response(self, encoded_image, prompt):
         """
@@ -58,31 +51,20 @@ class LlamaVisionService:
             str: Model's response
         """
         try:
-            # Create the messages object
-            messages = [
-                {
-                    "role": "user",
-                    "content": [
-                        {
-                            "type": "text",
-                            "text": prompt
-                        },
-                        {
-                            "type": "image_url",
-                            "image_url": {
-                                "url": "data:image/jpeg;base64," + encoded_image,
-                            }
-                        }
-                    ]
-                }
-            ]
+            logger.info("Sending request to LLM with prompt length: %d", len(prompt))
             
-            # Send the request to the model
-            response = self.model.chat(messages=messages)
+            # TODO: Create the messages object
             
-            # Return the model's response
-            return response['choices'][0]['message']['content']
+            # TODO: Send the request to the model
+            
+            # TODO: Extract and validate the response
+            
+            # TODO: Check if response appears to be truncated
+            
+            # TODO: Return the content
+            
         except Exception as e:
+            logger.error("Error generating response: %s", str(e))
             return f"Error generating response: {e}"
     
     def generate_fashion_response(self, user_image_base64, matched_row, all_items, 
@@ -100,44 +82,16 @@ class LlamaVisionService:
         Returns:
             str: Detailed fashion response
         """
-        # Generate a detailed list of items with prices and links
-        items_description = "\n".join(
-            f"- **{row['Item Name']}** (${row['Price']}): Buy it here: {row['Link']}"
-            for _, row in all_items.iterrows()
-        )
-
-        if similarity_score >= threshold:
-            # Role-based prompt for an exact match
-            assistant_prompt = (
-                f"You are a young and enthusiastic fashion expert who helps students learn about fashion analysis. "
-                f"The matched outfit features: {matched_row['Item Name']}.\n\n"
-                f"Matched outfit includes:\n{items_description}\n\n"
-                "Follow these steps in your response:\n"
-                "1. Introduce yourself briefly. Use an educational, engaging tone suited for students.\n"
-                "2. Describe each item as a definition first (list what it is, what color it is and what pattern it has), following this format:\n"
-                "   - Example: Versace 'Tweed Masculine Blazer' is a single-breasted wool-blend tweed blazer crafted in a micro windowpane pattern in red and black.\n"
-                "   - Format: **Item Name** is [definition].\n"
-                "3. After defining each item, include its detailed description, highlighting its type, material, pattern, and why it stands out.\n"
-                "4. Describe the outfit's overall style category and explain why (e.g., casual chic, formal elegance, street style).\n"
-                "5. Include a brief learning point about fashion analysis concepts used in this assessment.\n"
-                "6. Summarize all the items with their prices and links at the end.\n\n"
-                "Ensure your response is educational, clear, and structured for students to learn from!"
-            )
-        else:
-            # Role-based prompt for the closest match
-            assistant_prompt = (
-                f"You are a fashion instructor helping students learn image analysis techniques.\n\n"
-                "Follow these steps in your response:\n"
-                "1. Use an educational tone suited for a course on fashion technology.\n"
-                "2. Explain that while we don't have this exact outfit in our database, this is a learning opportunity about image analysis.\n"
-                "3. Describe each item as a definition first (list what it is, what color it is and what pattern it has), following this format: \n"
-                "   - Example: Blazer is a single-breasted wool-blend tweed blazer in red and black with a micro windowpane pattern.\n"
-                "   - Format: **Item Name** is [definition].\n"
-                "4. Be thorough and include details about the type of item, its color, and any patterns or textures.\n"
-                "5. Include a short lesson on how AI models analyze fashion elements in images.\n"
-                "6. Conclude by saying: 'Next, we'll search for similar items online to demonstrate how to recreate this look.'\n\n"
-                "Make your response educational and structured for a classroom setting!"
-            )
-
-        # Send the prompt to the model
-        return self.generate_response(user_image_base64, assistant_prompt)
+        # TODO: Generate a list of items with prices and links
+        
+        # TODO: Join items with clear separators
+        
+        # TODO: Create prompt based on similarity threshold
+        
+        # TODO: Send the prompt to the model
+        
+        # TODO: Check if response is incomplete and create basic response if needed
+        
+        # TODO: Ensure the items list is included
+        
+        # TODO: Return the final response
