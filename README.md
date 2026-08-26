@@ -11,7 +11,7 @@ Snap a photo of an outfit and get an instant style analysis: matched items, simi
 3. **Llama Vision**, served through IBM watsonx.ai, generates a professional, catalog-style analysis covering colors, materials, and styling — along with real item names, prices, and purchase links
 4. You get back a clean, markdown-formatted report, ready to read
 
-No manual tagging. No external API required beyond the LLM. 🪄
+No manual tagging. No external API required beyond the LLM. 
 
 ## Architecture
 
