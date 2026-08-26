@@ -17,10 +17,10 @@ No manual tagging. No external API required beyond the LLM. 🪄
 
 | Component | Role |
 |---|---|
-| `models/image_processor.py` | 🧠 Encodes images to base64 and ResNet50 feature vectors, finds the closest dataset match via cosine similarity |
-| `models/llm_service.py` | 🤖 Interfaces with the Llama Vision Instruct model on IBM watsonx.ai to generate the fashion analysis |
-| `utils/helpers.py` | 🧰 Formats responses, retrieves related items, handles model refusals gracefully |
-| `app.py` | 🎛️ Gradio interface tying the full pipeline together |
+| `models/image_processor.py` |  Encodes images to base64 and ResNet50 feature vectors, finds the closest dataset match via cosine similarity |
+| `models/llm_service.py` |  Interfaces with the Llama Vision Instruct model on IBM watsonx.ai to generate the fashion analysis |
+| `utils/helpers.py` |  Formats responses, retrieves related items, handles model refusals gracefully |
+| `app.py` |  Gradio interface tying the full pipeline together |
 
 ## Getting started
 
@@ -54,9 +54,9 @@ LLAMA_MODEL_ID = "meta-llama/llama-4-..."
 python app.py
 ```
 
-Then open the local URL shown in the terminal (default `http://127.0.0.1:5000`). 🚀
+Then open the local URL shown in the terminal (default `http://127.0.0.1:5000`). 
 
-> 💡 **Dataset note:** this repo doesn't include the fashion embeddings dataset (`swift-style-embeddings.pkl`) due to its size. You can generate your own using the `encode_image` method in `image_processor.py` on your product catalog, or plug in your own precomputed embeddings with an `Embedding`, `Image URL`, `Item Name`, `Price`, and `Link` column.
+>  **Dataset note:** this repo doesn't include the fashion embeddings dataset (`swift-style-embeddings.pkl`) due to its size. You can generate your own using the `encode_image` method in `image_processor.py` on your product catalog, or plug in your own precomputed embeddings with an `Embedding`, `Image URL`, `Item Name`, `Price`, and `Link` column.
 
 ## Tech stack
 
@@ -68,4 +68,4 @@ This project is built on lab material licensed under Apache 2.0.
 
 ## About
 
-Built as part of a hands-on multimodal RAG learning project — combining computer vision embeddings with LLM-powered reasoning to bridge visual and textual fashion understanding. ✨
+Built as part of a hands-on multimodal RAG learning project combining computer vision embeddings with LLM-powered reasoning to bridge visual and textual fashion understanding. ✨
