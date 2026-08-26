@@ -1,7 +1,9 @@
 # 👗 Style Finder — AI Fashion Analyzer
 
 > Snap a photo of an outfit and get an instant style analysis: matched items, similar products, prices, and purchase links. Style Finder is a multimodal RAG app that combines a vision model, similarity search, and a vision-language LLM to turn a single image into a full fashion report.
-> 
+
+
+
 ![Python](https://img.shields.io/badge/Python-3.11-blue?logo=python&logoColor=white)
 ![Gradio](https://img.shields.io/badge/UI-Gradio-orange?logo=gradio&logoColor=white)
 ![PyTorch](https://img.shields.io/badge/Vision-PyTorch%20%2F%20ResNet50-EE4C2C?logo=pytorch&logoColor=white)
