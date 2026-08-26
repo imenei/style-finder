@@ -1,31 +1,32 @@
-# Style Finder
+# 👗 Style Finder
 
 Snap a photo of an outfit and get an instant style analysis: matched items, similar products, prices, and purchase links. Style Finder is a multimodal RAG app that combines a vision model, similarity search, and a vision-language LLM to turn a single image into a full fashion report.
 
 ## What it does
 
-1. Upload a photo of an outfit
-2. ResNet50 converts it into a numerical feature vector (embedding)
-3. Cosine similarity search finds the closest match in a fashion dataset
-4. Llama Vision, served through IBM watsonx.ai, generates a professional, catalog-style analysis covering colors, materials, and styling, along with real item names, prices, and purchase links
-5. The result is returned as a clean, markdown-formatted report
+📸 Upload a photo of an outfit, and here's what happens behind the scenes:
 
-No manual tagging. No external API required beyond the LLM.
+1. **ResNet50** converts the image into a numerical feature vector (embedding)
+2. **Cosine similarity search** finds the closest match in a fashion dataset
+3. **Llama Vision**, served through IBM watsonx.ai, generates a professional, catalog-style analysis covering colors, materials, and styling — along with real item names, prices, and purchase links
+4. You get back a clean, markdown-formatted report, ready to read
+
+No manual tagging. No external API required beyond the LLM. 🪄
 
 ## Architecture
 
 | Component | Role |
 |---|---|
-| `models/image_processor.py` | Encodes images to base64 and ResNet50 feature vectors, finds the closest dataset match via cosine similarity |
-| `models/llm_service.py` | Interfaces with the Llama Vision Instruct model on IBM watsonx.ai to generate the fashion analysis |
-| `utils/helpers.py` | Formats responses, retrieves related items, handles model refusals gracefully |
-| `app.py` | Gradio interface tying the full pipeline together |
+| `models/image_processor.py` | 🧠 Encodes images to base64 and ResNet50 feature vectors, finds the closest dataset match via cosine similarity |
+| `models/llm_service.py` | 🤖 Interfaces with the Llama Vision Instruct model on IBM watsonx.ai to generate the fashion analysis |
+| `utils/helpers.py` | 🧰 Formats responses, retrieves related items, handles model refusals gracefully |
+| `app.py` | 🎛️ Gradio interface tying the full pipeline together |
 
 ## Getting started
 
 ### Prerequisites
 
-Python 3.11 or later, an IBM watsonx.ai project for the Llama Vision model, and a precomputed fashion dataset with image embeddings (not included in this repo, see the note below).
+Python 3.11 or later, an IBM watsonx.ai project for the Llama Vision model, and a precomputed fashion dataset with image embeddings (not included in this repo — see the note below).
 
 ### Installation
 
@@ -53,9 +54,9 @@ LLAMA_MODEL_ID = "meta-llama/llama-4-..."
 python app.py
 ```
 
-Then open the local URL shown in the terminal (default `http://127.0.0.1:5000`).
+Then open the local URL shown in the terminal (default `http://127.0.0.1:5000`). 🚀
 
-Note on the dataset: this repo does not include the fashion embeddings dataset (`swift-style-embeddings.pkl`) because of its size. You can generate your own using the `encode_image` method in `image_processor.py` on your product catalog, or plug in your own precomputed embeddings with an `Embedding`, `Image URL`, `Item Name`, `Price`, and `Link` column.
+> 💡 **Dataset note:** this repo doesn't include the fashion embeddings dataset (`swift-style-embeddings.pkl`) due to its size. You can generate your own using the `encode_image` method in `image_processor.py` on your product catalog, or plug in your own precomputed embeddings with an `Embedding`, `Image URL`, `Item Name`, `Price`, and `Link` column.
 
 ## Tech stack
 
@@ -67,4 +68,4 @@ This project is built on lab material licensed under Apache 2.0.
 
 ## About
 
-Built as part of a hands-on multimodal RAG learning project, combining computer vision embeddings with LLM-powered reasoning to bridge visual and textual fashion understanding.
+Built as part of a hands-on multimodal RAG learning project — combining computer vision embeddings with LLM-powered reasoning to bridge visual and textual fashion understanding. ✨
