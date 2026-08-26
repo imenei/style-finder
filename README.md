@@ -1,7 +1,7 @@
 # 👗 Style Finder — AI Fashion Analyzer
 
-> Snap a photo. Get an instant, catalog-quality style analysis, matched items, and smart recommendations — powered by computer vision and a vision-language LLM.
-
+> Snap a photo of an outfit and get an instant style analysis: matched items, similar products, prices, and purchase links. Style Finder is a multimodal RAG app that combines a vision model, similarity search, and a vision-language LLM to turn a single image into a full fashion report.
+> 
 ![Python](https://img.shields.io/badge/Python-3.11-blue?logo=python&logoColor=white)
 ![Gradio](https://img.shields.io/badge/UI-Gradio-orange?logo=gradio&logoColor=white)
 ![PyTorch](https://img.shields.io/badge/Vision-PyTorch%20%2F%20ResNet50-EE4C2C?logo=pytorch&logoColor=white)
@@ -10,21 +10,20 @@
 
 ---
 
-## ✨ What it does
+##  What it does
 
 **Style Finder** is a multimodal Retrieval-Augmented Generation (RAG) app that turns any fashion photo into a full style report:
 
-1. 📸 **Upload a photo** of an outfit
-2. 🧠 **ResNet50** converts it into a numerical feature vector (embedding)
-3. 🔍 **Cosine similarity search** finds the closest match in a fashion dataset
-4. 🤖 **Llama Vision (via IBM watsonx.ai)** generates a professional, catalog-style analysis — colors, materials, styling — plus real item names, prices & purchase links
-5. 🛍️ Get back a clean, markdown-formatted report ready to read
+1.  **Upload a photo** of an outfit
+2.  **ResNet50** converts it into a numerical feature vector (embedding)
+3.  **Cosine similarity search** finds the closest match in a fashion dataset
+4.  **Llama Vision (via IBM watsonx.ai)** generates a professional, catalog-style analysis — colors, materials, styling  plus real item names, prices & purchase links
 
 No manual tagging. No external API required beyond the LLM. Just image in, style report out.
 
 ---
 
-## 🏗️ How it works
+##  How it works
 
 ```
 ┌─────────────┐     ┌──────────────────┐     ┌───────────────────┐     ┌─────────────────┐
@@ -48,7 +47,7 @@ No manual tagging. No external API required beyond the LLM. Just image in, style
 
 ---
 
-## 🚀 Getting Started
+##  Getting Started
 
 ### Prerequisites
 - Python 3.11+
@@ -82,11 +81,11 @@ python app.py
 
 Then open the local URL shown in the terminal (default: `http://127.0.0.1:5000`).
 
-> ⚠️ **Dataset note:** This repo does not include the fashion embeddings dataset (`swift-style-embeddings.pkl`) due to size. Generate your own using `image_processor.py`'s `encode_image` method on your product catalog, or plug in your own precomputed embeddings with an `Embedding`, `Image URL`, `Item Name`, `Price`, and `Link` column.
+>  **Dataset note:** This repo does not include the fashion embeddings dataset (`swift-style-embeddings.pkl`) due to size. Generate your own using `image_processor.py`'s `encode_image` method on your product catalog, or plug in your own precomputed embeddings with an `Embedding`, `Image URL`, `Item Name`, `Price`, and `Link` column.
 
 ---
 
-## 🖼️ Preview
+##  Preview
 
 | Upload | Analysis Output |
 |---|---|
@@ -97,7 +96,7 @@ Then open the local URL shown in the terminal (default: `http://127.0.0.1:5000`)
 
 ---
 
-## 🧩 Tech Stack
+##  Tech Stack
 
 - **Vision Model:** ResNet50 (torchvision, pre-trained on ImageNet)
 - **Similarity Search:** scikit-learn cosine similarity
@@ -107,12 +106,12 @@ Then open the local URL shown in the terminal (default: `http://127.0.0.1:5000`)
 
 ---
 
-## 📄 License
+##  License
 
 This project is built on lab material licensed under **Apache 2.0**.
 
 ---
 
-## 🙋 About
+##  About
 
-Built as part of a hands-on multimodal RAG learning project — combining computer vision embeddings with LLM-powered reasoning to bridge visual and textual fashion understanding.
+Built as part of a hands-on multimodal RAG learning project  combining computer vision embeddings with LLM-powered reasoning to bridge visual and textual fashion understanding.
