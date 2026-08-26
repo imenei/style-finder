@@ -14,6 +14,7 @@ import base64
 from io import BytesIO
 import numpy as np
 from sklearn.metrics.pairwise import cosine_similarity
+import traceback
 
 class ImageProcessor:
     """
@@ -31,17 +32,16 @@ class ImageProcessor:
             norm_mean (list): Normalization mean values for RGB channels
             norm_std (list): Normalization standard deviation values for RGB channels
         """
-        # TODO: Initialize the device (CPU or GPU)
-        # Hint: Use torch.device to determine if CUDA is available
-        self.device = None  # YOUR CODE HERE
+        self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
         
-        # TODO: Load the pre-trained ResNet50 model and set it to evaluation mode
-        # Hint: Use resnet50(pretrained=True) and move it to the device
-        self.model = None  # YOUR CODE HERE
+        self.model = resnet50(pretrained=True).to(self.device)
+        self.model.eval()  # Set model to evaluation mode
         
-        # TODO: Create the preprocessing pipeline using transforms.Compose
-        # The pipeline should resize, convert to tensor, and normalize the image
-        self.preprocess = None  # YOUR CODE HERE
+        self.preprocess = transforms.Compose([
+            transforms.Resize(image_size),
+            transforms.ToTensor(),
+            transforms.Normalize(mean=norm_mean, std=norm_std),
+        ])
     
     def encode_image(self, image_input, is_url=True):
         """
@@ -55,26 +55,31 @@ class ImageProcessor:
             dict: Contains 'base64' string and 'vector' (feature embedding)
         """
         try:
-            # TODO: Load the image based on the input type (URL or file path)
-            # Hint: Use requests.get for URLs and Image.open for file paths
-            # Don't forget to convert to RGB format
-            image = None  # YOUR CODE HERE
+            if is_url:
+                response = requests.get(image_input)
+                response.raise_for_status()
+                image = Image.open(BytesIO(response.content)).convert("RGB")
+            else:
+                image = Image.open(image_input).convert("RGB")
             
-            # TODO: Convert image to Base64
-            # Hint: Use BytesIO and base64.b64encode
-            base64_string = None  # YOUR CODE HERE
+            # Convert image to Base64
+            buffered = BytesIO()
+            image.save(buffered, format="JPEG")
+            base64_string = base64.b64encode(buffered.getvalue()).decode("utf-8")
             
-            # TODO: Preprocess the image for ResNet50
-            # Hint: Use the preprocess pipeline and add a batch dimension with unsqueeze(0)
-            input_tensor = None  # YOUR CODE HERE
+            # Preprocess the image for ResNet50
+            input_tensor = self.preprocess(image).unsqueeze(0).to(self.device)
             
-            # TODO: Extract features using ResNet50 and convert to numpy array
-            # Hint: Use torch.no_grad() to disable gradient calculation
-            feature_vector = None  # YOUR CODE HERE
+            # Extract features using ResNet50
+            with torch.no_grad():
+                features = self.model(input_tensor)
+            
+            feature_vector = features.cpu().numpy().flatten()
             
             return {"base64": base64_string, "vector": feature_vector}
         except Exception as e:
             print(f"Error encoding image: {e}")
+            traceback.print_exc()
             return {"base64": None, "vector": None}
 
     def find_closest_match(self, user_vector, dataset):
@@ -89,20 +94,13 @@ class ImageProcessor:
             tuple: (Closest matching row, similarity score)
         """
         try:
-            # TODO: Extract all embedding vectors from the dataset
-            # Hint: Use np.vstack on the 'Embedding' column
-            dataset_vectors = None  # YOUR CODE HERE
+            dataset_vectors = np.vstack(dataset['Embedding'].dropna().values)
             
-            # TODO: Calculate cosine similarity between user vector and all dataset vectors
-            # Hint: Use cosine_similarity from sklearn and reshape user_vector to (1, -1)
-            similarities = None  # YOUR CODE HERE
+            similarities = cosine_similarity(user_vector.reshape(1, -1), dataset_vectors)
             
-            # TODO: Find the index of the most similar vector and its similarity score
-            # Hint: Use np.argmax to find the index with the highest similarity
-            closest_index = None  # YOUR CODE HERE
-            similarity_score = None  # YOUR CODE HERE
+            closest_index = np.argmax(similarities)
+            similarity_score = similarities[0][closest_index]
             
-            # Retrieve the closest matching row
             closest_row = dataset.iloc[closest_index]
             return closest_row, similarity_score
         except Exception as e:
